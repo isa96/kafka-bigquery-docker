@@ -34,6 +34,3 @@ sudo docker exec -it kafka-server bash -c "python3 producer.py"
 sudo docker exec -it kafka-server bash -c "python3 consumer.py"
 ```
 
-##### Results in BigQuery
-![Kafka Twitter](https://user-images.githubusercontent.com/110159876/207465787-800b74fe-6fd0-4397-b277-522ac84f54c2.jpg)
-
