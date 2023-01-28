@@ -1,0 +1,36 @@
+version: '3'
+
+name: kafka
+
+services:
+  zookeper:
+    container_name: zookeper
+    build: .
+    image: kafka:latest
+    ports:
+      - 2181:2181
+    command: kafka/bin/zookeeper-server-start.sh kafka/config/zookeeper.properties
+    volumes:
+      - ./producer.py:/root/producer.py
+      - ./consumer.py:/root/consumer.py
+    tty: true
+    restart: always
+
+  kafka-server:
+    container_name: kafka-server
+    build: .
+    image: kafka:latest
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: /root/key.json
+    ports:
+      - 9092:9092
+    command: kafka/bin/kafka-server-start.sh kafka/config/server.properties
+    volumes:
+      - ./producer.py:/root/producer.py
+      - ./consumer.py:/root/consumer.py
+      - ./server.properties:/root/kafka/config/server.properties
+      - ./key.json:/root/key.json
+    tty: true
+    restart: always
+    depends_on:
+      - zookeper
